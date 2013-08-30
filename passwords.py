@@ -20,6 +20,7 @@ from sys import argv, exit
 from commands import getoutput
 from os import system
 from time import sleep
+from getpass import getpass
 
 usern = getoutput("logname")
 dbpath = "/home/" + usern + "/.config/passwordsmanager/passwords.txt"
@@ -117,7 +118,7 @@ def add():
 		ws = raw_input("Web Service: ")
 		lk = raw_input("Link: ")
 		usr = raw_input("User: ")
-		pss = raw_input("Password: ")
+		pss = getpass("Password: ")
 		if ws != "" and lk != "" and usr != "" and pss != "":
 			sure = raw_input("Check if everything is correct. Continue? Y(es)|N(o)\n")
 			if sure.lower() in ("y", "yes"):
