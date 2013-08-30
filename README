@@ -1,0 +1,48 @@
+Passwords Manager v0.1
+Author: Guillermo Gómez Fonfría
+Email: guillermo.gomezfonfria@gmail.com
+
+Passwords Manager is a command line tool that offers the possibility of
+creating a simple database to locally store your passwords so you can quickly access
+them at any given time in case you don't remember one of them.
+
+The database that passwords manager uses is created in the folder
+~/.config/passwordsmanager and is the file passwords.txt
+It's a plain text encoded. It is NOT a strong encoding and could be decoded
+by anyone with basic knowledge, but it prevents other people from reading all
+your data.
+Also, version 0.1 still doesn't require the user to be identified to change or
+access the database using the program.
+With all the above explained, this is NOT a recommended program if you want to
+hide important passwords (i.e. bank accounts) but it is better than storing
+that information in plain text.
+We also recommend creating backups of the database, just in case.
+
+While using this program remember that IT IS CASE SENSITIVE
+
+
+REQUIREMENTS
+* *nix
+* Python 2.7 installed
+
+RUN THE PROGRAM
+To run the application you need to make it executable:
+$ chmod +x passwords.py
+And then run it
+$ ./passwords.py
+If that didn't work try this:
+$ python passwords.py
+
+FEATURES:
+* Create encoded database
+* Read specific entries from database
+* Add new entries to database
+* Delete complete database
+
+FUTURE FEATURES:
+* Remove specific entry from database
+* Editing specific entry from database
+* Creating database backups (encoded)
+* Importing database (from encoded backups or plain exports)
+* Exporting database (plain text)
+* Better security (user authentication)
