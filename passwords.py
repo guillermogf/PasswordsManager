@@ -2,13 +2,13 @@
 #coding: utf-8
 #
 # Copyright (C) 2013 Guillermo Gómez Fonfría
-#<guillermo.gomezfonfria@gmail.com>
+# <guillermo.gomezfonfria@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-#xor
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -28,12 +28,16 @@ def help():
 	print("Usage: " + argv[0] + " ARGS\n")
 	print("\t-h\t--help\t\tShows this menu and exits")
 	print("\t-v\t--version\tShows version and exits")
-	print("\t-s\t--service\tShows entries (if any) related to the SERVICE\n\t\t\t\tspecified (default option)")
-	print("\t-w\t--web\t\tShows entries (if any) related to the WEB\n\t\t\t\tspecified")
+	print("\t-s\t--service\tShows entries (if any) related to the SERVICE\n\t\t\t\tspecified")
+	print("\t-w\t--web\t\tShows entries (if any) related to the LINK\n\t\t\t\tspecified")
 	print("\t-u\t--user\t\tShows entries (if any) related to the USER\n\t\t\t\tspecified")
+	print("\t-A\t--all\t\tShows all entries")
 	print("\t-a\t--add\t\tAdd new entry to database")
 	print("\t-r\t--remove\tRemove a specific entry from the database")
 	print("\t-d\t--delete\tDelete complete database")
+	print("\t-e\t--export\tExport database (in plain text) to specified\n\t\t\t\tfolder")
+	print("\t-b\t--backup\tBackup (encoded text) to specidied folder")
+	print("\t-i\t--import\tImport from specified file. Both plain text\n\t\t\t\texport or encoded backup")
 
 def version():
 	print("Passwords Manager v" + vers)
@@ -52,12 +56,60 @@ def error(description):
 def check():
 	if getoutput("mkdir ~/.config/passwordsmanager") == "":
 		system("touch " + dbpath)
+	try:
+		fl = open(dbpath)
+	except:
+		system("touch " + dbpath)
 
 def opendb():
 	db = open(dbpath)
 	db = db.read()
 	db = db.decode("base64")
 	return db
+
+def search(field):
+	passwords = opendb()
+	passwords = passwords.split("\n")
+	passwords.remove("")
+
+	site = []
+	for i in passwords:
+		i = i.split(" - ")
+		if field == "ws":
+			site.append(i[0])
+		elif field == "lk":
+			site.append(i[1])
+		elif field == "usr":
+			site.append(i[2])
+	return site
+
+def show(site, match):
+	passwords = opendb()
+	if passwords == "":
+		print("Database is empty!")
+		exit()
+	passwords = passwords.split("\n")
+	passwords.remove("")
+	n = 0
+	for i in site:
+		if i == match:
+			n = n + 1
+			index = site.index(i)
+			site.insert(index, "")
+			site.pop(index + 1)
+			tmp = passwords[index]
+			passwords.insert(index, "")
+			passwords.pop(index + 1)
+			tmp = tmp.split(" - ")
+			print("\nOccurrence nº" + str(n))
+			print("Web Service: " + tmp[0])
+			print("Link: " + tmp[1])
+			print("User: " + tmp[2])
+			print("Password: " + tmp[3])
+	
+	if n == 0:
+		print("Password not found on database")
+		exit()
 
 def add():
 	print("Fill in all fields")
@@ -79,7 +131,7 @@ def add():
 	ndb = open(dbpath, "w")
 	ndb.write(db)
 	ndb.close()
-	sleep(1.5)
+	sleep(1)
 	print("New entry saved succesfully!")
 
 def delete():
@@ -92,11 +144,26 @@ def delete():
 		print("Cancelling and exiting...")
 
 def remove():
-	print("Remove!")
-	print("(Not yet implemented)")
-	exit()
+	print("Remove specific entries\n")
+	print("Fill in at least one of the fields")
+	while True:
+		ws = raw_input("Web Service: ")
+		lk = raw_input("Link: ")
+		usr = raw_input("User: ")
+		if ws != "" or lk != "" or usr != "":
+			break
+		print("You MUST fill in at least ONE of the fields")
 
-def show():
+	if ws != "":
+		site = search("ws")
+		match = ws
+	elif lk != "":
+		site = search("lk")
+		match = lk
+	elif usr != "":
+		site = search("usr")
+		match = usr
+
 	passwords = opendb()
 	if passwords == "":
 		print("Database is empty!")
@@ -104,35 +171,99 @@ def show():
 	passwords = passwords.split("\n")
 	passwords.remove("")
 
-	site = []
-	for i in passwords:
-		i = i.split(" - ")
-		if argv[1] in ("-s", "--service"):
-			site.append(i[0])
-		elif argv[1] in ("-w", "--web"):
-			site.append(i[1])
-		elif argv[1] in ("-u", "--user"):
-			site.append(i[2])
-
 	n = 0
 	for i in site:
-		if i == argv[2]:
+		if i == match:
 			n = n + 1
 			index = site.index(i)
 			site.insert(index, "")
 			site.pop(index + 1)
 			tmp = passwords[index]
-			passwords.insert(index, "")
-			passwords.pop(index + 1)
 			tmp = tmp.split(" - ")
 			print("\nOccurrence nº" + str(n))
 			print("Web Service: " + tmp[0])
 			print("Link: " + tmp[1])
 			print("User: " + tmp[2])
 			print("Password: " + tmp[3])
+			sure = raw_input("Do you want to delete this entry?\n(This CANNOT be undone)\nY(es)|N(o)\n")
+			if sure.lower() in ("y", "yes"):
+				passwords.pop(index)
+				db = ""
+				for i in passwords:
+					db = db + i + "\n"
+				db = db.encode("base64")
+				ndb = open(dbpath, "w")
+				ndb.write(db)
+				ndb.close()
+				sleep(1)
+				print("Entry deleted succesfully!")
 
 	if n == 0:
 		print("Password not found on database")
+		exit()
+
+
+
+def export():
+	db = opendb()
+	if argv[1] in ("-b", "--backup"):
+		db = db.encode("base64")
+	try:
+		bckp = open(argv[2], "w")
+	except:
+		print("No file was specified!")
+		exit()
+	bckp.write(db)
+	bckp.close()
+	sleep(1)
+	print("Database exported succesfully to " + argv[2])
+
+def imprt():
+	print("Are you sure you want to import a new database?")
+	print("Doing this you will delete your current database (which CANNOT be undone)")
+	print("It could also cause some errors if the new file is damaged")
+	sure = raw_input("Continue? Y(es)|N(o)\n")
+	if sure not in ("y", "yes"):
+		exit()
+	try:
+		inpt = open(argv[2])
+	except:
+		print("No file was specified!")
+	inpt = inpt.read()
+	system("rm " + dbpath)
+	try:
+		inpt = inpt.encode("base64")
+	except:
+		inpt = inpt
+	output = open(dbpath, "w")
+	output.write(inpt)
+	output.close()
+	print("Database imported succesfully!\nNow check if the file wasn't damaged")
+	exit()
+
+def show_all():
+	db = opendb()
+	db = db.split("\n")
+	db.remove("")
+	n = 0
+	for i in db:
+		n = n + 1
+		i = i.split(" - ")
+		print("\nOccurrence nº" + str(n))
+		print("Web Service: " + i[0])
+		print("Link: " + i[1])
+		print("User: " + i[2])
+		print("Password: " + i[3])
+
+def main():
+	if argv[1] in ("-s", "--service"):
+		site = search("ws")
+	elif argv[1] in ("-w", "--web"):
+		site = search("lk")
+	elif argv[1] in ("-u", "--user"):
+		site = search("usr")
+	show(site, argv[2])
+
 
 #Check if db already exits and create an empty one if not
 check()
@@ -150,6 +281,21 @@ elif argv[1] in ("-r", "--remove"):
 elif argv[1] in ("-d", "--delete"):
 	delete()
 elif argv[1] in ("-s", "--service", "-w", "--web", "-u", "--user"):
-	show()
+	if len(argv) == 2:
+		error("No SERVICE, LINK or USER specified")
+	else:
+		main()
+elif argv[1] in ("-A", "--all"):
+	show_all()
+elif argv[1] in ("-e", "--export", "-b", "--backup"):
+	if len(argv) == 2:
+		error("No file specified")
+	else:
+		export()
+elif argv[1] in ("-i", "--import"):
+	if len(argv) == 2:
+		error("No file specified")
+	else:
+		imprt()
 else:
 	error("Argument not recognized")

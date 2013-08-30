@@ -32,17 +32,31 @@ And then run it
 $ ./passwords.py
 If that didn't work try this:
 $ python passwords.py
+If this is the first time you use the program, read the help menu:
+$ ./passwords.py --help
+or:
+$ python passwords.py --help
+
+SOME TIPS
+* The edit feature does not exits and it will probably never exist. If you
+want to edit an entry you'll have to remove it first and then add a new one
+* If you import a damaged file (i.e. that doesn't follow the program syntax)
+it will cause some problems and it should be removed
+* If you want to create a database "by hand" you'll have to follow this
+syntax (if not it won't be readble by this program):
+Name of web service - Link to web service - User - Password
 
 FEATURES:
 * Create encoded database
 * Read specific entries from database
+* Read all entries
 * Add new entries to database
+* Remove specific entry from database
 * Delete complete database
+* Exporting database (plain text)
+* Creating database backups (encoded)
+* Importing database (from encoded backups or plain text exports)
 
 FUTURE FEATURES:
-* Remove specific entry from database
-* Editing specific entry from database
-* Creating database backups (encoded)
-* Importing database (from encoded backups or plain exports)
-* Exporting database (plain text)
+* Mix two database
 * Better security (user authentication)
