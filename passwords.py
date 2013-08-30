@@ -8,48 +8,148 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-#
+#xor
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-version = "0.1"
+vers = "0.1"
 
-from sys import argv
+from sys import argv, exit
+from commands import getoutput
+from os import system
+from time import sleep
+
+usern = getoutput("logname")
+dbpath = "/home/" + usern + "/.config/passwordsmanager/passwords.txt"
 
 def help():
-	print("")
+	print("Usage: " + argv[0] + " ARGS\n")
+	print("\t-h\t--help\t\tShows this menu and exits")
+	print("\t-v\t--version\tShows version and exits")
+	print("\t-s\t--service\tShows entries (if any) related to the SERVICE\n\t\t\t\tspecified (default option)")
+	print("\t-w\t--web\t\tShows entries (if any) related to the WEB\n\t\t\t\tspecified")
+	print("\t-u\t--user\t\tShows entries (if any) related to the USER\n\t\t\t\tspecified")
+	print("\t-a\t--add\t\tAdd new entry to database")
+	print("\t-r\t--remove\tRemove a specific entry from the database")
+	print("\t-d\t--delete\tDelete complete database")
 
 def version():
-	print("Passwords manager v" + version)
+	print("Passwords Manager v" + vers)
 	print("Copyright © 2013 Guillermo Gómez Fonfría")
-	print("Licencia GPLv3: GNU GPL version 3")
-	print("This is free sotware: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.")
+	print("License GPLv3: GNU GPL version 3")
+	print("\nThis is free sotware: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.")
 	print("\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.")
 	print("\nYou should have received a copy of the GNU General Public License along with this program. If not, see {http://www.gnu.org/license/}.")
 	exit()
 
-def main():
-	db = open("../passwords.txt")
-	passwords = db.read()
+def error(description):
+	print("ERROR: " + description)
+	print("\nUSAGE: " + argv[0] + " [ARGS] + [SERVICE]")
+	print("For more information run " + argv[0] + " --help")
+	
+def check():
+	if getoutput("mkdir ~/.config/passwordsmanager") == "":
+		system("touch " + dbpath)
+
+def opendb():
+	db = open(dbpath)
+	db = db.read()
+	db = db.decode("base64")
+	return db
+
+def add():
+	print("Fill in all fields")
+	while True:
+		ws = raw_input("Web Service: ")
+		lk = raw_input("Link: ")
+		usr = raw_input("User: ")
+		pss = raw_input("Password: ")
+		if ws != "" and lk != "" and usr != "" and pss != "":
+			sure = raw_input("Check if everything is correct. Continue? Y(es)|N(o)\n")
+			if sure.lower() in ("y", "yes"):
+				break
+		else:
+			print("You MUST fill in ALL the fields")
+
+	db = opendb()
+	db = db + ws + " - " + lk + " - " + usr + " - " + pss + "\n"
+	db = db.encode("base64")
+	ndb = open(dbpath, "w")
+	ndb.write(db)
+	ndb.close()
+	sleep(1.5)
+	print("New entry saved succesfully!")
+
+def delete():
+	sure = raw_input("Are you sure that you want to remove your complete passwords database?\n(This CANNOT be undone)\nY(es)|N(o)\n")
+	if sure.lower() in ("y", "yes"):
+		system("rm " + dbpath)
+		sleep(1.5)
+		print("Database removed succesfully")
+	else:
+		print("Cancelling and exiting...")
+
+def remove():
+	print("Remove!")
+	print("(Not yet implemented)")
+	exit()
+
+def show():
+	passwords = opendb()
+	if passwords == "":
+		print("Database is empty!")
+		exit()
 	passwords = passwords.split("\n")
+	passwords.remove("")
 
 	site = []
 	for i in passwords:
 		i = i.split(" - ")
-		site.append(i[0])
+		if argv[1] in ("-s", "--service"):
+			site.append(i[0])
+		elif argv[1] in ("-w", "--web"):
+			site.append(i[1])
+		elif argv[1] in ("-u", "--user"):
+			site.append(i[2])
 
-	if argv[1] in site:
-		index = site.index(argv[1])
-		tmp = passwords[index]
-		tmp = tmp.split(" - ")
-		print("Web service: " + tmp[0])
-		print("Link: " + tmp[1])
-		print("User: " + tmp[2])
-		print("Password: " + tmp[3])
+	n = 0
+	for i in site:
+		if i == argv[2]:
+			n = n + 1
+			index = site.index(i)
+			site.insert(index, "")
+			site.pop(index + 1)
+			tmp = passwords[index]
+			passwords.insert(index, "")
+			passwords.pop(index + 1)
+			tmp = tmp.split(" - ")
+			print("\nOccurrence nº" + str(n))
+			print("Web Service: " + tmp[0])
+			print("Link: " + tmp[1])
+			print("User: " + tmp[2])
+			print("Password: " + tmp[3])
 
-	else:
+	if n == 0:
 		print("Password not found on database")
 
-main()
+#Check if db already exits and create an empty one if not
+check()
+
+if len(argv) == 1:
+	error("No arguments specified!")
+elif argv[1] in ("-h", "--help"):
+	help()
+elif argv[1] in ("-v", "--version"):
+	version()
+elif argv[1] in ("-a", "--add"):
+	add()
+elif argv[1] in ("-r", "--remove"):
+	remove()
+elif argv[1] in ("-d", "--delete"):
+	delete()
+elif argv[1] in ("-s", "--service", "-w", "--web", "-u", "--user"):
+	show()
+else:
+	error("Argument not recognized")
