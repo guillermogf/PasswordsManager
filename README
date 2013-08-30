@@ -3,8 +3,8 @@ Author: Guillermo Gómez Fonfría
 Email: guillermo.gomezfonfria@gmail.com
 
 Passwords Manager is a command line tool that offers the possibility of
-creating a simple database to locally store your passwords so you can quickly access
-them at any given time in case you don't remember one of them.
+creating a simple database to locally store your passwords so you can quickly
+access them at any given time in case you don't remember one of them.
 
 The database that passwords manager uses is created in the folder
 ~/.config/passwordsmanager and is the file passwords.txt
