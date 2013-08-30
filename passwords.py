@@ -232,9 +232,10 @@ def imprt():
 	inpt = inpt.read()
 	system("rm " + dbpath)
 	try:
-		inpt = inpt.encode("base64")
+		inpt = inpt.decode("base64")
 	except:
 		inpt = inpt
+	inpt = inpt.encode("base64")
 	output = open(dbpath, "w")
 	output.write(inpt)
 	output.close()

@@ -60,3 +60,4 @@ FEATURES:
 FUTURE FEATURES:
 * Mix two database
 * Better security (user authentication)
+* Better security: not show passwords when writing them
