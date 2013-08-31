@@ -56,8 +56,8 @@ FEATURES:
 * Exporting database (plain text)
 * Creating database backups (encoded)
 * Importing database (from encoded backups or plain text exports)
-* Not show passwords when writing them
+* Hide passwords when writing them
 
 FUTURE FEATURES:
-* Mix two database
+* Mix two databases
 * Better security (user authentication)
