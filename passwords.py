@@ -14,7 +14,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-vers = "0.1"
+vers = "0.3"
 
 from sys import argv, exit
 from commands import getoutput
@@ -37,7 +37,7 @@ def help():
 	print("\t-r\t--remove\tRemove a specific entry from the database")
 	print("\t-d\t--delete\tDelete complete database")
 	print("\t-e\t--export\tExport database (in plain text) to specified\n\t\t\t\tfolder")
-	print("\t-b\t--backup\tBackup (encoded text) to specidied folder")
+	print("\t-b\t--backup\tBackup (encoded text) to specified folder")
 	print("\t-i\t--import\tImport from specified file. Both plain text\n\t\t\t\texport or encoded backup")
 
 def version():
