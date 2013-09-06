@@ -135,7 +135,7 @@ def add():
 			if sure.lower() in ("y", "yes"):
 				break
 		else:
-			print("You MUST fill in all required (*) fields and make sure you wrote the same password")
+			print("\nYou MUST fill in all required (*) fields. Also make sure you wrote the same password\n")
 
 	db = opendb()
 	db += ws + " - " + lk + " - " + em + " - " + usr + " - " + pss + "\n"
@@ -237,7 +237,7 @@ def export():
 
 def imprt():
 	print("Are you sure you want to import a new database?")
-	print("Doing this you will delete your current database (which CANNOT be undone)")
+	print("By doing this you will delete your current database (which CANNOT be undone)")
 	print("It could also cause some errors if the new file is damaged")
 	sure = raw_input("Continue? Y(es)|N(o)\n")
 	if sure not in ("y", "yes"):
