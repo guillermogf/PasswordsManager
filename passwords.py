@@ -2,7 +2,7 @@
 #coding: utf-8
 #
 # Copyright (C) 2013 Guillermo Gómez Fonfría
-# <guillermo.gomezfonfria@gmail.com>
+# <guillermo.gf@openmailbox.org>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,12 +31,13 @@ def help():
 	print("\t-v\t--version\tShows version and exits")
 	print("\t-s\t--service\tShows entries (if any) related to the SERVICE\n\t\t\t\tspecified")
 	print("\t-w\t--web\t\tShows entries (if any) related to the LINK\n\t\t\t\tspecified")
+	print("\t-e\t--email\t\tShows entries (if any) related to the EMAIL\n\t\t\t\tspecified")
 	print("\t-u\t--user\t\tShows entries (if any) related to the USER\n\t\t\t\tspecified")
 	print("\t-A\t--all\t\tShows all entries")
 	print("\t-a\t--add\t\tAdd new entry to database")
 	print("\t-r\t--remove\tRemove a specific entry from the database")
 	print("\t-d\t--delete\tDelete complete database")
-	print("\t-e\t--export\tExport database (in plain text) to specified\n\t\t\t\tfolder")
+	print("\t-E\t--export\tExport database (in plain text) to specified\n\t\t\t\tfolder")
 	print("\t-b\t--backup\tBackup (encoded text) to specified folder")
 	print("\t-i\t--import\tImport from specified file. Both plain text\n\t\t\t\texport or encoded backup")
 
@@ -59,6 +60,7 @@ def check():
 		system("touch " + dbpath)
 	try:
 		fl = open(dbpath)
+		fl.close()
 	except:
 		system("touch " + dbpath)
 
@@ -80,8 +82,10 @@ def search(field):
 			site.append(i[0])
 		elif field == "lk":
 			site.append(i[1])
-		elif field == "usr":
+		elif field == "em":
 			site.append(i[2])
+		elif field == "usr":
+			site.append(i[3])
 	return site
 
 def show(site, match):
@@ -105,29 +109,36 @@ def show(site, match):
 			print("\nOccurrence nº" + str(n))
 			print("Web Service: " + tmp[0])
 			print("Link: " + tmp[1])
-			print("User: " + tmp[2])
-			print("Password: " + tmp[3])
+			print("Email: " + tmp[2])
+			print("User: " + tmp[3])
+			print("Password: " + tmp[4])
 	
 	if n == 0:
 		print("Password not found on database")
 		exit()
 
 def add():
-	print("Fill in all fields")
+	print("Fill in required (*) fields")
 	while True:
-		ws = raw_input("Web Service: ")
+		ws = raw_input("Web Service*: ")
 		lk = raw_input("Link: ")
-		usr = raw_input("User: ")
-		pss = getpass("Password: ")
-		if ws != "" and lk != "" and usr != "" and pss != "":
+		em = raw_input("Email: ")
+		usr = raw_input("User*: ")
+		pss = getpass("Password*: ")
+		pss2 = getpass("Repeat your password*: ")
+		if ws != "" and usr != "" and pss != "" and pss == pss2:
+			if lk == "":
+				lk = " "
+			elif em == "":
+				em = " "
 			sure = raw_input("Check if everything is correct. Continue? Y(es)|N(o)\n")
 			if sure.lower() in ("y", "yes"):
 				break
 		else:
-			print("You MUST fill in ALL the fields")
+			print("You MUST fill in all required (*) fields and make sure you wrote the same password")
 
 	db = opendb()
-	db = db + ws + " - " + lk + " - " + usr + " - " + pss + "\n"
+	db += ws + " - " + lk + " - " + em + " - " + usr + " - " + pss + "\n"
 	db = db.encode("base64")
 	ndb = open(dbpath, "w")
 	ndb.write(db)
@@ -150,8 +161,9 @@ def remove():
 	while True:
 		ws = raw_input("Web Service: ")
 		lk = raw_input("Link: ")
+		em = raw_input("Email: ")
 		usr = raw_input("User: ")
-		if ws != "" or lk != "" or usr != "":
+		if ws != "" or lk != "" or em != "" or usr != "":
 			break
 		print("You MUST fill in at least ONE of the fields")
 
@@ -161,6 +173,9 @@ def remove():
 	elif lk != "":
 		site = search("lk")
 		match = lk
+	elif em != "":
+		site = search("em")
+		match = em
 	elif usr != "":
 		site = search("usr")
 		match = usr
@@ -184,14 +199,15 @@ def remove():
 			print("\nOccurrence nº" + str(n))
 			print("Web Service: " + tmp[0])
 			print("Link: " + tmp[1])
-			print("User: " + tmp[2])
-			print("Password: " + tmp[3])
+			print("Email: " + tmp[2])
+			print("User: " + tmp[3])
+			print("Password: " + tmp[4])
 			sure = raw_input("Do you want to delete this entry?\n(This CANNOT be undone)\nY(es)|N(o)\n")
 			if sure.lower() in ("y", "yes"):
 				passwords.pop(index)
 				db = ""
 				for i in passwords:
-					db = db + i + "\n"
+					db += i + "\n"
 				db = db.encode("base64")
 				ndb = open(dbpath, "w")
 				ndb.write(db)
@@ -254,14 +270,17 @@ def show_all():
 		print("\nOccurrence nº" + str(n))
 		print("Web Service: " + i[0])
 		print("Link: " + i[1])
-		print("User: " + i[2])
-		print("Password: " + i[3])
+		print("Email: " + i[2])
+		print("User: " + i[3])
+		print("Password: " + i[4])
 
 def main():
 	if argv[1] in ("-s", "--service"):
 		site = search("ws")
 	elif argv[1] in ("-w", "--web"):
 		site = search("lk")
+	elif argv[1] in ("-e", "--email"):
+		site = search("em")
 	elif argv[1] in ("-u", "--user"):
 		site = search("usr")
 	show(site, argv[2])
@@ -282,14 +301,14 @@ elif argv[1] in ("-r", "--remove"):
 	remove()
 elif argv[1] in ("-d", "--delete"):
 	delete()
-elif argv[1] in ("-s", "--service", "-w", "--web", "-u", "--user"):
+elif argv[1] in ("-s", "--service", "-w", "--web", "-e", "--email", "-u", "--user"):
 	if len(argv) == 2:
-		error("No SERVICE, LINK or USER specified")
+		error("No SERVICE, LINK, EMAIL or USER specified")
 	else:
 		main()
 elif argv[1] in ("-A", "--all"):
 	show_all()
-elif argv[1] in ("-e", "--export", "-b", "--backup"):
+elif argv[1] in ("-E", "--export", "-b", "--backup"):
 	if len(argv) == 2:
 		error("No file specified")
 	else:
