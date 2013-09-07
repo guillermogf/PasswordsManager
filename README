@@ -37,6 +37,12 @@ $ ./passwords.py --help
 or:
 $ python passwords.py --help
 
+INSTALL THE PROGRAM
+If you want to run Passwords Manager just by typing `passwords` at any given
+time, you have to copy the file passwords.py into /usr/bin/ Just run the
+following command to do so (as root):
+# cp passwords.py /usr/bin/passwords
+
 SOME TIPS
 * If you created a database using version 0.2 or a previous one of this
   program you will have to create a new one and add one-by-one every entry or
