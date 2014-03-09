@@ -262,10 +262,10 @@ def export():
     except:
         print("No file was specified!")
         exit()
-        bckp.write(db)
-        bckp.close()
-        sleep(1)
-        print("Database exported succesfully to " + argv[2])
+    bckp.write(db)
+    bckp.close()
+    sleep(1)
+    print("Database exported succesfully to " + argv[2])
 
 
 def imprt():
