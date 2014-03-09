@@ -17,18 +17,21 @@ With all the above explained, this is NOT a recommended program if you want to
 hide important passwords (i.e. bank accounts) but it is better than storing
 that information in plain text.
 We also recommend creating backups of the database, just in case.
+As this is still a non-stable program, backwars compatibility may be broken
+with new features, so make sure to document yourself (github wiki, Changelog
+and/or this README) before updating.
 
 While using this program remember that IT IS CASE SENSITIVE
 
 
 REQUIREMENTS
-* *nix
-* Python 2.7 installed
+* *nix (Only tested on GNU/Linux, but should work on others *NIXs)
+* Python 2.7+
 
 RUN THE PROGRAM
-To run the application you need to make it executable:
+Before running, make sure it has execution permission. If not, add it:
 $ chmod +x passwords.py
-And then run it
+And then run it:
 $ ./passwords.py
 If that didn't work try this:
 $ python passwords.py
@@ -55,7 +58,7 @@ SOME TIPS
 * If you want to create a database "by hand" you'll have to follow this
   syntax (if not it won't be readable by this program):
   Name of web service - Link to web service - Email - User - Password
-* If a field is not filled in it is taken as a space
+  Note: If a field is not filled in it should be marked as a space
 
 FEATURES:
 * Create encoded database
@@ -70,6 +73,6 @@ FEATURES:
 * Hide passwords when writing them
 
 FUTURE FEATURES:
-* Translate to other languages
+* Translation into other languages
 * Mix two databases
-* Better security (user authentication)
+* Better security: user authentication and a 'real' encryption lgorithm
