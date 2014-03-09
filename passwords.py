@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #coding: utf-8
 #
-# Copyright (C) 2013 Guillermo Gómez Fonfría
+# Copyright (C) 2013-2014 Guillermo Gómez Fonfría
 # <guillermo.gf@openmailbox.org>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,7 @@ def help():
 
 def version():
     print("Passwords Manager v" + vers)
-    print("Copyright © 2013 Guillermo Gómez Fonfría")
+    print("Copyright © 2013-2014 Guillermo Gómez Fonfría")
     print("License GPLv3: GNU GPL version 3")
     print("\nThis is free sotware: you can redistribute it and/or modify " +
           "it under the terms of the GNU General Public License as " +
@@ -83,7 +83,12 @@ def check():
 
 
 def opendb():
-    db = open(dbpath)
+    try:
+        db = open(dbpath)
+    except: # if db doesn't exist, just create a blank one & open RO mode
+        db = open(dbpath, "w")
+        db.close()
+        db = open(dbpath)
     db = db.read()
     db = db.decode("base64")
     return db
@@ -275,8 +280,9 @@ def imprt():
         inpt = open(argv[2])
     except:
         print("No file was specified!")
-        inpt = inpt.read()
-        system("rm " + dbpath)
+        exit()
+    inpt = inpt.read()
+    system("rm " + dbpath)
     try:
         inpt = inpt.decode("base64")
     except:
