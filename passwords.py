@@ -85,7 +85,7 @@ def check():
 def opendb():
     try:
         db = open(dbpath)
-    except: # if db doesn't exist, just create a blank one & open RO mode
+    except:  # if db doesn't exist, just create a blank one & open RO mode
         db = open(dbpath, "w")
         db.close()
         db = open(dbpath)
