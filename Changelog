@@ -1,6 +1,8 @@
 09/03/2014  Guillermo Gómez <guillermo.gf@openmailbox.org>
 	* Removed COPYING file (had nothing to do w/ this project)
 	* Failure to add entries when db didn't exist fixed
+	* Failure to export/backup db fixed
+	* Failure to import plain text fixed
 
 05/01/2014  Guillermo Gómez <guillermo.gf@openmailbox.org>
 	* Created file with known bugs

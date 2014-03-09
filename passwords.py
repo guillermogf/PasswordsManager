@@ -155,7 +155,7 @@ def add():
         if ws != "" and usr != "" and pss != "" and pss == pss2:
             if lk == "":
                 lk = " "
-            elif em == "":
+            if em == "":
                 em = " "
             sure = raw_input("Check if everything is correct. Continue? " +
                              "Y(es)|N(o)\n")
@@ -276,23 +276,18 @@ def imprt():
     sure = raw_input("Continue? Y(es)|N(o)\n")
     if sure not in ("y", "yes"):
         exit()
+    inptfile = open(argv[2])
+    inpt = inptfile.read()
+    inptfile.close()
     try:
-        inpt = open(argv[2])
-    except:
-        print("No file was specified!")
-        exit()
-    inpt = inpt.read()
-    system("rm " + dbpath)
-    try:
-        inpt = inpt.decode("base64")
+        inpt.split(" - ")  # Way to check if plain or base64 should be improved
+        inpt = inpt.encode("base64")
     except:
         inpt = inpt
-    inpt = inpt.encode("base64")
-    output = open(dbpath, "w")
-    output.write(inpt)
-    output.close()
-    print("Database imported succesfully!\nNow check if the file wasn't " +
-          "damaged")
+    outputfile = open(dbpath, "w")
+    outputfile.write(inpt)
+    outputfile.close()
+    print("Database imported!\nNow check if the file wasn't damaged")
     exit()
 
 
