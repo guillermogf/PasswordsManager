@@ -19,6 +19,7 @@ from commands import getoutput
 from os import system
 from time import sleep
 from getpass import getpass
+import os.path
 
 vers = "0.3"
 usern = getoutput("logname")
@@ -83,12 +84,10 @@ def check():
 
 
 def opendb():
-    try:
-        db = open(dbpath)
-    except:  # if db doesn't exist, just create a blank one & open RO mode
+    if not os.path.isfile(dbpath):  # Check if db exists & create if not
         db = open(dbpath, "w")
         db.close()
-        db = open(dbpath)
+    db = open(dbpath)
     db = db.read()
     db = db.decode("base64")
     return db
@@ -279,11 +278,9 @@ def imprt():
     inptfile = open(argv[2])
     inpt = inptfile.read()
     inptfile.close()
-    try:
+    if len(inpt.split(" - ")) > 1:
         inpt.split(" - ")  # Way to check if plain or base64 should be improved
         inpt = inpt.encode("base64")
-    except:
-        inpt = inpt
     outputfile = open(dbpath, "w")
     outputfile.write(inpt)
     outputfile.close()
