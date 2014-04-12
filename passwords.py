@@ -240,12 +240,12 @@ def remove():
                 db = ""
                 for i in passwords:
                     db += i + "\n"
-                    db = db.encode("base64")
-                    ndb = open(dbpath, "w")
-                    ndb.write(db)
-                    ndb.close()
-                    sleep(1)
-                    print("Entry deleted succesfully!")
+                db = db.encode("base64")
+                ndb = open(dbpath, "w")
+                ndb.write(db)
+                ndb.close()
+                sleep(1)
+                print("Entry deleted succesfully!")
 
     if n == 0:
         print("Password not found on database")
