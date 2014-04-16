@@ -8,9 +8,8 @@ access them at any given time in case you don't remember one of them.
 
 The database that passwords manager uses is created in the folder
 ~/.config/passwordsmanager and is the file passwords.txt
-It's a plain text encoded. It is NOT a strong encoding and could be decoded
-by anyone with basic knowledge, but it prevents other people from reading all
-your data.
+It's a plain text encoded with base64. It is NOT a strong encoding and could be
+decoded by anyone with basic knowledge, but it prevents other people from reading all your data.
 Also, this version still doesn't require the user to be identified to change or
 access the database using the program.
 With all the above explained, this is NOT a recommended program if you want to
@@ -21,7 +20,7 @@ As this is still a non-stable program, backwars compatibility may be broken
 with new features, so make sure to document yourself (github wiki, Changelog
 and/or this README) before updating.
 
-While using this program remember that IT IS CASE SENSITIVE
+While using this program remember that IT IS CASE SENSITIVE.
 
 
 REQUIREMENTS
@@ -51,10 +50,10 @@ SOME TIPS
   program you will have to create a new one and add one-by-one every entry or
   adapt it to the new syntax. See the wiki in the github repository for more
   information. <https://github.com/kakahuete/PasswordsManager/wiki>
-* The edit feature does not exits and it will probably never exist. If you
-  want to edit an entry you'll have to remove it first and then add a new one
+* The edit feature does not exist and it will probably never exist. If you
+  want to edit an entry you'll have to remove it first and then add a new one.
 * If you import a damaged file (i.e. that doesn't follow the program syntax)
-  it will cause some problems and it should be removed
+  it will cause some problems and it should be removed.
 * If you want to create a database "by hand" you'll have to follow this
   syntax (if not it won't be readable by this program):
   Name of web service - Link to web service - Email - User - Password
