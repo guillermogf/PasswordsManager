@@ -130,7 +130,7 @@ def show(site, match):
             passwords.insert(index, "")
             passwords.pop(index + 1)
             tmp = tmp.split(" - ")
-            print("\nOccurrence nº" + str(n))
+            print("\nEntry nº" + str(n))
             print("Web Service: " + tmp[0])
             print("Link: " + tmp[1])
             print("Email: " + tmp[2])
@@ -227,7 +227,7 @@ def remove():
             site.pop(index + 1)
             tmp = passwords[index]
             tmp = tmp.split(" - ")
-            print("\nOccurrence nº" + str(n))
+            print("\nEntry nº" + str(n))
             print("Web Service: " + tmp[0])
             print("Link: " + tmp[1])
             print("Email: " + tmp[2])
@@ -296,7 +296,7 @@ def show_all():
     for i in db:
         n = n + 1
         i = i.split(" - ")
-        print("\nOccurrence nº" + str(n))
+        print("\nEntry nº" + str(n))
         print("Web Service: " + i[0])
         print("Link: " + i[1])
         print("Email: " + i[2])
