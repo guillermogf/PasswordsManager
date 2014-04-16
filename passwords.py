@@ -17,7 +17,6 @@
 from sys import argv, exit
 from commands import getoutput
 from os import system
-from time import sleep
 from getpass import getpass
 import os.path
 
@@ -170,7 +169,6 @@ def add():
     ndb = open(dbpath, "w")
     ndb.write(db)
     ndb.close()
-    sleep(1)
     print("New entry saved succesfully!")
 
 
@@ -180,7 +178,6 @@ def delete():
                      "N(o)\n")
     if sure.lower() in ("y", "yes"):
         system("rm " + dbpath)
-        sleep(1.5)
         print("Database removed succesfully")
     else:
         print("Cancelling and exiting...")
@@ -244,7 +241,6 @@ def remove():
                 ndb = open(dbpath, "w")
                 ndb.write(db)
                 ndb.close()
-                sleep(1)
                 print("Entry deleted succesfully!")
 
     if n == 0:
@@ -263,7 +259,6 @@ def export():
         exit()
     bckp.write(db)
     bckp.close()
-    sleep(1)
     print("Database exported succesfully to " + argv[2])
 
 
