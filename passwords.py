@@ -67,6 +67,7 @@ def error(description):
     print("ERROR: " + description)
     print("\nUSAGE: " + argv[0] + " [ARGS] + [SERVICE]")
     print("For more information run " + argv[0] + " --help")
+    exit(1)
 
 
 def check():
