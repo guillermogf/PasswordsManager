@@ -173,7 +173,8 @@ def delete():
                      "passwords database?\n(This CANNOT be undone)\nY(es)|" +
                      "N(o)\n")
     if sure.lower() in ("y", "yes"):
-        system("rm " + dbpath)
+        db = open(dbpath, "w")
+        db.close()
         print("Database removed succesfully")
     else:
         print("Cancelling and exiting...")
