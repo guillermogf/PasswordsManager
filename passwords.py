@@ -15,7 +15,6 @@
 # GNU General Public License for more details.
 
 from sys import argv, exit
-from os import system
 from getpass import getpass
 import os.path
 
