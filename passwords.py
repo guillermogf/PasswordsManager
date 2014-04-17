@@ -79,9 +79,6 @@ def check():
 
 
 def opendb():
-    if not os.path.isfile(dbpath):  # Check if db exists & create if not
-        db = open(dbpath, "w")
-        db.close()
     db = open(dbpath)
     db = db.read()
     db = db.decode("base64")
@@ -181,6 +178,11 @@ def delete():
 
 
 def remove():
+    passwords = opendb()
+    if passwords == "":
+        print("Database is empty!")
+        exit()
+
     print("Remove specific entries\n")
     print("Fill in at least one of the fields")
     while True:
@@ -205,10 +207,6 @@ def remove():
         site = search("usr")
         match = usr
 
-    passwords = opendb()
-    if passwords == "":
-        print("Database is empty!")
-        exit()
     passwords = passwords.split("\n")
     passwords.remove("")
 
@@ -282,6 +280,9 @@ def imprt():
 
 def show_all():
     db = opendb()
+    if db == "":
+        print("Database is empty!")
+        exit()
     db = db.split("\n")
     db.remove("")
     n = 0
