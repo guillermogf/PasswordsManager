@@ -24,8 +24,8 @@ While using this program remember that IT IS CASE SENSITIVE.
 
 
 REQUIREMENTS
-* *nix (Only tested on GNU/Linux, but should work on others *NIXs)
-* Python 2.7+
+* *nix (Only tested on GNU/Linux, but should work on others *NIXs and even Win)
+* Python 2.3+ (Appears to work on Python3, but it's been developed for 2.7)
 
 RUN THE PROGRAM
 Before running, make sure it has execution permission. If not, add it:
@@ -74,4 +74,12 @@ FEATURES:
 FUTURE FEATURES:
 * Translation into other languages
 * Mix two databases
-* Better security: user authentication and a 'real' encryption lgorithm
+* Better security: user authentication and a 'real' encryption algorithm
+
+CONTRIBUTE
+You can always start a new issue on GitHub.
+If you know to code on Python and would like to colaborate directly be sure to
+have pep8 checker installed on your computer and check you comply it before
+creating a pull request. <https://pypi.python.org/pypi/pep8/1.4.6>
+Also take into account that I am trying to make this program as widely
+compatible and 'pythonic' as possible.
