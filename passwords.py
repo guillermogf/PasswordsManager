@@ -15,14 +15,12 @@
 # GNU General Public License for more details.
 
 from sys import argv, exit
-from commands import getoutput
 from os import system
 from getpass import getpass
 import os.path
 
 vers = "0.3"
-usern = getoutput("logname")
-dbpath = "/home/" + usern + "/.config/passwordsmanager/passwords.txt"
+dbpath = os.path.expanduser("~/.config/passwordsmanager/passwords.txt")
 
 
 def help():
@@ -73,13 +71,11 @@ def error(description):
 
 
 def check():
-    if getoutput("mkdir ~/.config/passwordsmanager") == "":
-        system("touch " + dbpath)
-        try:
-            fl = open(dbpath)
-            fl.close()
-        except:
-            system("touch " + dbpath)
+    if not os.path.isfile(dbpath):
+        if not os.path.exists(os.path.dirname(dbpath)):
+            os.makedirs(os.path.dirname(dbpath))
+        db = open(dbpath, "a")
+        db.close()
 
 
 def opendb():
