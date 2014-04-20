@@ -249,9 +249,9 @@ def export():
         db = db.encode("base64")
     try:
         bckp = open(argv[2], "w")
-    except:
-        print("No file was specified!")
-        exit()
+    except IOError:
+        print("You don't have permission to write that file!")
+        exit(1)
     bckp.write(db)
     bckp.close()
     print("Database exported succesfully to " + argv[2])
@@ -333,8 +333,10 @@ elif argv[1] in ("-s", "--service", "-w", "--web",
 elif argv[1] in ("-A", "--all"):
     show_all()
 elif argv[1] in ("-E", "--export", "-b", "--backup"):
-    if len(argv) == 2:
+    if len(argv) < 2:
         error("No file specified")
+    elif len(argv) > 3:
+        error("More than one file was specified")
     else:
         export()
 elif argv[1] in ("-i", "--import"):
