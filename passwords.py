@@ -82,13 +82,13 @@ def opendb():
     db = open(dbpath)
     db = db.read()
     db = db.decode("base64")
+    db = db.rstrip("\n") 
     return db
 
 
 def search(field):
     passwords = opendb()
     passwords = passwords.split("\n")
-    passwords.remove("")
 
     site = []
     for i in passwords:
@@ -110,7 +110,6 @@ def show(site, match):
         print("Database is empty!")
         exit()
     passwords = passwords.split("\n")
-    passwords.remove("")
     n = 0
     for i in site:
         if i == match:
@@ -157,6 +156,8 @@ def add():
                   "sure you wrote the same password\n")
 
     db = opendb()
+    if db != "":
+        db += "\n"
     db += ws + " - " + lk + " - " + em + " - " + usr + " - " + pss + "\n"
     db = db.encode("base64")
     ndb = open(dbpath, "w")
@@ -208,7 +209,6 @@ def remove():
         match = usr
 
     passwords = passwords.split("\n")
-    passwords.remove("")
 
     n = 0
     for i in site:
@@ -284,7 +284,6 @@ def show_all():
         print("Database is empty!")
         exit()
     db = db.split("\n")
-    db.remove("")
     n = 0
     for i in db:
         n = n + 1
