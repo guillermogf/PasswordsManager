@@ -82,8 +82,16 @@ def opendb():
     db = open(dbpath)
     db = db.read()
     db = db.decode("base64")
-    db = db.rstrip("\n") 
+    db = db.rstrip("\n")
     return db
+
+
+def writedb(content):
+    if not content.endswith("\n"):  # Check if it ends w/ trailing newline
+        content += content + "\n"
+    db = open(dbpath, "w")
+    db.write(content)
+    db.close()
 
 
 def search(field):
@@ -160,9 +168,7 @@ def add():
         db += "\n"
     db += ws + " - " + lk + " - " + em + " - " + usr + " - " + pss + "\n"
     db = db.encode("base64")
-    ndb = open(dbpath, "w")
-    ndb.write(db)
-    ndb.close()
+    writedb(db)
     print("New entry saved succesfully!")
 
 
@@ -233,9 +239,7 @@ def remove():
                 for i in passwords:
                     db += i + "\n"
                 db = db.encode("base64")
-                ndb = open(dbpath, "w")
-                ndb.write(db)
-                ndb.close()
+                writedb(db)
                 print("Entry deleted succesfully!")
 
     if n == 0:
@@ -271,9 +275,7 @@ def imprt():
     if len(inpt.split(" - ")) > 1:
         inpt.split(" - ")  # Way to check if plain or base64 should be improved
         inpt = inpt.encode("base64")
-    outputfile = open(dbpath, "w")
-    outputfile.write(inpt)
-    outputfile.close()
+    writedb(inpt)
     print("Database imported!\nNow check if the file wasn't damaged")
     exit()
 
