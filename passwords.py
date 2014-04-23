@@ -86,10 +86,14 @@ def opendb():
     return db
 
 
-def writedb(content):
+def writedb(content, path=dbpath):
     if not content.endswith("\n"):  # Check if it ends w/ trailing newline
         content += content + "\n"
-    db = open(dbpath, "w")
+    try:
+        db = open(path, "w")
+    except IOError:
+        print("You don't have perimission to write to that file!")
+        exit(1)
     db.write(content)
     db.close()
 
@@ -251,13 +255,7 @@ def export():
     db = opendb()
     if argv[1] in ("-b", "--backup"):
         db = db.encode("base64")
-    try:
-        bckp = open(argv[2], "w")
-    except IOError:
-        print("You don't have permission to write that file!")
-        exit(1)
-    bckp.write(db)
-    bckp.close()
+    writedb(db, argv[2])
     print("Database exported succesfully to " + argv[2])
 
 
