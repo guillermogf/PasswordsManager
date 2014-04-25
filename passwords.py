@@ -210,16 +210,19 @@ def remove():
                              "CANNOT be undone)\nY(es)|N(o)\n")
             if sure.lower() in ("y", "yes"):
                 passwords.pop(index)
-                db = ""
-                for i in passwords:
-                    db += i + "\n"
-                db = db.encode("base64")
-                writedb(db)
+                passwords.insert(index, "")
                 print("Entry deleted succesfully!")
 
     if n == 0:
         print("Password not found on database")
         exit()
+
+    db = ""
+    for i in passwords:
+        if i != "":
+            db += i + "\n"
+    db = db.encode("base64")
+    writedb(db)
 
 
 def export():
