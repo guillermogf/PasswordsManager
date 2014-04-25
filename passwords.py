@@ -17,6 +17,7 @@
 from sys import argv, exit
 from getpass import getpass
 import os.path
+import argparse
 
 vers = "0.3"
 dbpath = os.path.expanduser("~/.config/passwordsmanager/passwords.txt")
@@ -296,52 +297,66 @@ def show_all():
         print("Password: " + i[4])
 
 
-def main():
-    if argv[1] in ("-s", "--service"):
-        site = search("ws")
-    elif argv[1] in ("-w", "--web"):
-        site = search("lk")
-    elif argv[1] in ("-e", "--email"):
-        site = search("em")
-    elif argv[1] in ("-u", "--user"):
-        site = search("usr")
-    show(site, argv[2])
-
-
 #Check if db already exits and create an empty one if not
 check()
 
-if len(argv) == 1:
-    error("No arguments specified!")
-elif argv[1] in ("-h", "--help"):
-    help()
-elif argv[1] in ("-v", "--version"):
+parser = argparse.ArgumentParser(description="Passwords Manager allows you " +
+                                 "to easily store your account data.")
+
+args_group = parser.add_mutually_exclusive_group(required=True)
+args_group.add_argument("-v", "--version", action="store_true",
+                        help="Show version, license and exits")
+args_group.add_argument("-s", "--service", type=str,
+                        help="Shows entries (if any) matching SERVICE")
+args_group.add_argument("-w", "--web", type=str,
+                        help="Shows entries (if any) matching WEB")
+args_group.add_argument("-e", "--email", type=str,
+                        help="Shows entries (if any) matching EMAIL")
+args_group.add_argument("-u", "--user", type=str,
+                        help="Shoes entries (if any) matching USER")
+args_group.add_argument("-A", "--all", action="store_true",
+                        help="Shows all entries")
+args_group.add_argument("-a", "--add", action="store_true",
+                        help="Add new entry to database")
+args_group.add_argument("-r", "--remove", action="store_true",
+                        help="Remove a specific entry from database")
+args_group.add_argument("-d", "--delete", action="store_true",
+                        help="Delete complete database")
+args_group.add_argument("-E", "--export", type=str,
+                        help="Export database (in plain text) to EXPORT")
+args_group.add_argument("-b", "--backup", type=str,
+                        help="Backup database (encoded) to BACKUP")
+args_group.add_argument("-i", "--import", type=str, metavar="FILE",
+                        help="Import from FILE, Both plain or " +
+                             "encoded databases", dest="imprt")
+args = parser.parse_args()
+
+
+if args.version:
     version()
-elif argv[1] in ("-a", "--add"):
-    add()
-elif argv[1] in ("-r", "--remove"):
-    remove()
-elif argv[1] in ("-d", "--delete"):
-    delete()
-elif argv[1] in ("-s", "--service", "-w", "--web",
-                 "-e", "--email", "-u", "--user"):
-    if len(argv) == 2:
-        error("No SERVICE, LINK, EMAIL or USER specified")
-    else:
-        main()
-elif argv[1] in ("-A", "--all"):
+elif args.service is not None:
+    site = search("ws")
+    show(site, argv[2])
+elif args.web is not None:
+    site = search("lk")
+    show(site, argv[2])
+elif args.email is not None:
+    site = search("em")
+    show(site, argv[2])
+elif args.user is not None:
+    site = search("usr")
+    show(site, argv[2])
+elif args.all:
     show_all()
-elif argv[1] in ("-E", "--export", "-b", "--backup"):
-    if len(argv) < 2:
-        error("No file specified")
-    elif len(argv) > 3:
-        error("More than one file was specified")
-    else:
-        export()
-elif argv[1] in ("-i", "--import"):
-    if len(argv) == 2:
-        error("No file specified")
-    else:
-        imprt()
-else:
-        error("Argument not recognized")
+elif args.add:
+    add()
+elif args.remove:
+    remove()
+elif args.delete:
+    delete()
+elif args.export:
+    export()
+elif args.backup:
+    export()
+elif args.imprt is not None:
+    imprt()
