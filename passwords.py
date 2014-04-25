@@ -23,29 +23,6 @@ vers = "0.3"
 dbpath = os.path.expanduser("~/.config/passwordsmanager/passwords.txt")
 
 
-def help():
-    print("Usage: " + argv[0] + " ARGS\n")
-    print("\t-h\t--help\t\tShows this menu and exits")
-    print("\t-v\t--version\tShows version and exits")
-    print("\t-s\t--service\tShows entries (if any) related to the " +
-          "SERVICE\n\t\t\t\tspecified")
-    print("\t-w\t--web\t\tShows entries (if any) related to the LINK" +
-          "\n\t\t\t\tspecified")
-    print("\t-e\t--email\t\tShows entries (if any) related to the EMAIL" +
-          "\n\t\t\t\tspecified")
-    print("\t-u\t--user\t\tShows entries (if any) related to the USER" +
-          "\n\t\t\t\tspecified")
-    print("\t-A\t--all\t\tShows all entries")
-    print("\t-a\t--add\t\tAdd new entry to database")
-    print("\t-r\t--remove\tRemove a specific entry from the database")
-    print("\t-d\t--delete\tDelete complete database")
-    print("\t-E\t--export\tExport database (in plain text) to specified" +
-          "\n\t\t\t\tfolder")
-    print("\t-b\t--backup\tBackup (encoded text) to specified folder")
-    print("\t-i\t--import\tImport from specified file. Both plain text" +
-          "\n\t\t\t\texport or encoded backup")
-
-
 def version():
     print("Passwords Manager v" + vers)
     print("Copyright © 2013-2014 Guillermo Gómez Fonfría")
@@ -62,13 +39,6 @@ def version():
           "License along with this program. If not, see {http://www.gnu.org" +
           "/license/}.")
     exit()
-
-
-def error(description):
-    print("ERROR: " + description)
-    print("\nUSAGE: " + argv[0] + " [ARGS] + [SERVICE]")
-    print("For more information run " + argv[0] + " --help")
-    exit(1)
 
 
 def check():
