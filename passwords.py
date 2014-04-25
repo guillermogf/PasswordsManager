@@ -14,7 +14,7 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-from sys import argv, exit
+from sys import exit
 from getpass import getpass
 import os.path
 import argparse
@@ -59,7 +59,7 @@ def opendb():
 
 def writedb(content, path=dbpath):
     if not content.endswith("\n"):  # Check if it ends w/ trailing newline
-        content += content + "\n"
+        content = content + "\n"
     try:
         db = open(path, "w")
     except IOError:
@@ -224,10 +224,13 @@ def remove():
 
 def export():
     db = opendb()
-    if argv[1] in ("-b", "--backup"):
+    if args.backup:
         db = db.encode("base64")
-    writedb(db, argv[2])
-    print("Database exported succesfully to " + argv[2])
+        path = args.backup
+    else:
+        path = args.export
+    writedb(db, path)
+    print("Database exported succesfully to " + path)
 
 
 def imprt():
@@ -238,7 +241,7 @@ def imprt():
     sure = raw_input("Continue? Y(es)|N(o)\n")
     if sure not in ("y", "yes"):
         exit()
-    inptfile = open(argv[2])
+    inptfile = open(args.imprt)
     inpt = inptfile.read()
     inptfile.close()
     if len(inpt.split(" - ")) > 1:
@@ -304,18 +307,18 @@ args = parser.parse_args()
 
 if args.version:
     version()
-elif args.service is not None:
+elif args.service:
     site = search("ws")
-    show(site, argv[2])
-elif args.web is not None:
+    show(site, args.service)
+elif args.web:
     site = search("lk")
-    show(site, argv[2])
-elif args.email is not None:
+    show(site, args.web)
+elif args.email:
     site = search("em")
-    show(site, argv[2])
-elif args.user is not None:
+    show(site, args.email)
+elif args.user:
     site = search("usr")
-    show(site, argv[2])
+    show(site, args.user)
 elif args.all:
     show_all()
 elif args.add:
@@ -328,5 +331,5 @@ elif args.export:
     export()
 elif args.backup:
     export()
-elif args.imprt is not None:
+elif args.imprt:
     imprt()
