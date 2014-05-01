@@ -20,8 +20,6 @@ As this is still a non-stable program, backwars compatibility may be broken
 with new features, so make sure to document yourself (github wiki, Changelog
 and/or this README) before updating.
 
-While using this program remember that IT IS CASE SENSITIVE.
-
 
 REQUIREMENTS
 * *nix (Only tested on GNU/Linux, but should work on others *NIXs and even Win)

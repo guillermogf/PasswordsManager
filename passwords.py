@@ -71,6 +71,7 @@ def writedb(content, path=dbpath):
 
 def search(field):
     passwords = opendb()
+    passwords = passwords.lower()  # Avoid case-sensitive searches
     passwords = passwords.split("\n")
 
     site = []
@@ -93,6 +94,7 @@ def show(site, match):
         print("Database is empty!")
         exit()
     passwords = passwords.split("\n")
+    match = match.lower()  # Avoid case-sensitive searches
     n = 0
     for i in site:
         if i == match:
@@ -178,16 +180,16 @@ def remove():
 
     if ws != "":
         site = search("ws")
-        match = ws
+        match = ws.lower()
     elif lk != "":
         site = search("lk")
-        match = lk
+        match = lk.lower()
     elif em != "":
         site = search("em")
-        match = em
+        match = em.lower()
     elif usr != "":
         site = search("usr")
-        match = usr
+        match = usr.lower()
 
     passwords = passwords.split("\n")
 
