@@ -27,16 +27,16 @@ def version():
     print("Passwords Manager v" + vers)
     print("Copyright © 2013-2014 Guillermo Gómez Fonfría")
     print("License GPLv3: GNU GPL version 3")
-    print("\nThis is free sotware: you can redistribute it and/or modify " +
-          "it under the terms of the GNU General Public License as " +
-          "published by the Free Software Foundation, either version 3 of" +
+    print("\nThis is free sotware: you can redistribute it and/or modify "
+          "it under the terms of the GNU General Public License as "
+          "published by the Free Software Foundation, either version 3 of"
           " the License, or (at your option) any later version.")
-    print("\nThis program is distributed in the hope that it will be useful," +
-          " but WITHOUT ANY WARRANTY; without even the implied warranty of " +
-          "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU " +
+    print("\nThis program is distributed in the hope that it will be useful,"
+          " but WITHOUT ANY WARRANTY; without even the implied warranty of "
+          "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU "
           "General Public License for more details.")
-    print("\nYou should have received a copy of the GNU General Public " +
-          "License along with this program. If not, see {http://www.gnu.org" +
+    print("\nYou should have received a copy of the GNU General Public "
+          "License along with this program. If not, see {http://www.gnu.org"
           "/license/}.")
     exit()
 
@@ -132,12 +132,12 @@ def add():
                 lk = " "
             if em == "":
                 em = " "
-            sure = raw_input("Check if everything is correct. Continue? " +
-                             "Y(es)|N(o)\n")
+            sure = raw_input("Check if everything is correct. Continue? "
+                             "Y(es)|[N(o)]\n")
             if sure.lower() in ("y", "yes"):
                 break
         else:
-            print("\nYou MUST fill in all required (*) fields. Also make " +
+            print("\nYou MUST fill in all required (*) fields. Also make "
                   "sure you wrote the same password\n")
 
     db = opendb()
@@ -150,9 +150,9 @@ def add():
 
 
 def delete():
-    sure = raw_input("Are you sure that you want to remove your complete " +
-                     "passwords database?\n(This CANNOT be undone)\nY(es)|" +
-                     "N(o)\n")
+    sure = raw_input("Are you sure that you want to remove your complete "
+                     "passwords database?\n(This CANNOT be undone)\nY(es)|"
+                     "[N(o)]\n")
     if sure.lower() in ("y", "yes"):
         db = open(dbpath, "w")
         db.close()
@@ -208,8 +208,8 @@ def remove():
             print("Email: " + tmp[2])
             print("User: " + tmp[3])
             print("Password: " + tmp[4])
-            sure = raw_input("Do you want to delete this entry?\n(This " +
-                             "CANNOT be undone)\nY(es)|N(o)\n")
+            sure = raw_input("Do you want to delete this entry?\n(This "
+                             "CANNOT be undone)\nY(es)|[N(o)]\n")
             if sure.lower() in ("y", "yes"):
                 passwords.pop(index)
                 passwords.insert(index, "")
@@ -240,10 +240,10 @@ def export():
 
 def imprt():
     print("Are you sure you want to import a new database?")
-    print("By doing this you will delete your current database (which " +
+    print("By doing this you will delete your current database (which "
           "CANNOT be undone)")
     print("It could also cause some errors if the new file is damaged")
-    sure = raw_input("Continue? Y(es)|N(o)\n")
+    sure = raw_input("Continue? Y(es)|[N(o)]\n")
     if sure not in ("y", "yes"):
         exit()
     inptfile = open(args.imprt)
@@ -278,7 +278,7 @@ def show_all():
 #Check if db already exits and create an empty one if not
 check()
 
-parser = argparse.ArgumentParser(description="Passwords Manager allows you " +
+parser = argparse.ArgumentParser(description="Passwords Manager allows you "
                                  "to easily store your account data.")
 
 args_group = parser.add_mutually_exclusive_group(required=True)
@@ -305,7 +305,7 @@ args_group.add_argument("-E", "--export", type=str,
 args_group.add_argument("-b", "--backup", type=str,
                         help="Backup database (encoded) to BACKUP")
 args_group.add_argument("-i", "--import", type=str, metavar="FILE",
-                        help="Import from FILE, Both plain or " +
+                        help="Import from FILE, Both plain or "
                              "encoded databases", dest="imprt")
 args = parser.parse_args()
 
