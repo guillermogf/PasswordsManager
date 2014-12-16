@@ -47,7 +47,7 @@ SOME TIPS
 * If you created a database using version 0.2 or a previous one of this
   program you will have to create a new one and add one-by-one every entry or
   adapt it to the new syntax. See the wiki in the github repository for more
-  information. <https://github.com/kakahuete/PasswordsManager/wiki>
+  information. <https://github.com/guillermogf/PasswordsManager/wiki>
 * The edit feature does not exist and it will probably never exist. If you
   want to edit an entry you'll have to remove it first and then add a new one.
 * If you import a damaged file (i.e. that doesn't follow the program syntax)

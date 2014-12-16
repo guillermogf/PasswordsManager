@@ -244,7 +244,7 @@ def imprt():
           "CANNOT be undone)")
     print("It could also cause some errors if the new file is damaged")
     sure = raw_input("Continue? Y(es)|[N(o)]\n")
-    if sure not in ("y", "yes"):
+    if sure.lower() not in ("y", "yes"):
         exit()
     inptfile = open(args.imprt)
     inpt = inptfile.read()
