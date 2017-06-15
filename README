@@ -2,46 +2,51 @@ Passwords Manager
 Author: Guillermo Gómez Fonfría
 Email: guillermo.gf@openmailbox.org
 
+This is NOT a secure password manager and it should only be used with
+that in mind. It was just coded as a learning experience.
+
 Passwords Manager is a command line tool that offers the possibility of
 creating a simple database to locally store your passwords so you can quickly
 access them at any given time in case you don't remember one of them.
 
 The database that passwords manager uses is created in the folder
 ~/.config/passwordsmanager and is the file passwords.txt
-It's a plain text encoded with base64. It is NOT a strong encoding and could be
-decoded by anyone with basic knowledge, but it prevents other people from reading all your data.
-Also, this version still doesn't require the user to be identified to change or
-access the database using the program.
+It's a plain text encoded with base64. It is NOT a real encoding for security
+purposes and can be easily decoded by anyone with basic knowledge (e.g by
+running: `$ base64 .config/passwordsmanager/passwords.txt` on any GNU/Linux
+machine), but it prevents non-savvy-people from reading all your account info.
+
+Apart from that, there's also the issue that the program doesn't even
+require the user to identify themself to access the database.
+
 With all the above explained, this is NOT a recommended program if you want to
-hide important passwords (i.e. bank accounts) but it is better than storing
-that information in plain text.
-We also recommend creating backups of the database, just in case.
-As this is still a non-stable program, backwars compatibility may be broken
-with new features, so make sure to document yourself (github wiki, Changelog
-and/or this README) before updating.
+hide important passwords (e.g. bank accounts) but it is still better than
+storing that information in plain text in your desktop or having a sticky note
+on your screen.
 
 
 REQUIREMENTS
 * *nix (Only tested on GNU/Linux, but should work on others *NIXs and even Win)
 * Python 2.3+ (Appears to work on Python3, but it's been developed for 2.7)
 
+
 RUN THE PROGRAM
-Before running, make sure it has execution permission. If not, add it:
-$ chmod +x passwords.py
-And then run it:
 $ ./passwords.py
-If that didn't work try this:
+Or:
 $ python passwords.py
-If this is the first time you use the program, read the help menu:
+If this is the first time you use the program, it is recommended to read the
+help menu:
 $ ./passwords.py --help
 or:
 $ python passwords.py --help
 
+
 INSTALL THE PROGRAM
 If you want to run Passwords Manager just by typing `passwords` at any given
-time, you have to copy the file passwords.py into /usr/bin/ Just run the
-following command to do so (as root):
+time, you can copy the program file (passwords.py) into /usr/bin/ Just run the
+following command (as root):
 # cp passwords.py /usr/bin/passwords
+
 
 SOME TIPS
 * If you created a database using version 0.2 or a previous one of this
@@ -57,22 +62,26 @@ SOME TIPS
   Name of web service - Link to web service - Email - User - Password
   Note: If a field is not filled in it should be marked as a space
 
+
 FEATURES:
-* Create encoded database
-* Read specific entries from database
-* Read all entries
-* Add new entries to database
-* Remove specific entry from database
-* Delete complete database
-* Exporting database (plain text)
-* Creating database backups (encoded)
-* Importing database (from encoded backups or plain text exports)
-* Hide passwords when writing them
+* Create base64 databases.
+* Search for specific items.
+* Show all items.
+* Add new items.
+* Remove items.
+* Delete the whole database.
+* Export the database in plain text.
+* Create database backups (base64 encoding).
+* Import a database from encoded backups or plain text exports.
+
 
 FUTURE FEATURES:
 * Translation into other languages
 * Mix two databases
 * Better security: user authentication and a 'real' encryption algorithm
+Note: This software is no longer maintained, so don't expect any new feature
+or bugfix.
+
 
 CONTRIBUTE
 You can always start a new issue on GitHub.
